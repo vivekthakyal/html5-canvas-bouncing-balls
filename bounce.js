@@ -20,7 +20,7 @@ function init() {
     // start the animation loop
     setInterval(draw, g_interval);
   } else {
-    document.getElementById('message').style.display = 'static';
+    document.getElementById('message').style.display = 'block';
   }
 }
 
