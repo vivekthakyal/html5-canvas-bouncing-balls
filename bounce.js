@@ -6,6 +6,7 @@ function init() {
   var canvas = document.getElementById('sandbox');
   if (canvas.getContext) {
     g_ctx = canvas.getContext('2d');
+    g_ctx.fillStyle = '#FFFFDA';
     
     // create some balls with random initial co-ordinates and random velocities
     for (var i = 0; i < 100; i++) {
