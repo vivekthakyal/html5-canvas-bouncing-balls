@@ -19,6 +19,8 @@ function init() {
     
     // start the animation loop
     setInterval(draw, g_interval);
+  } else {
+    document.querySelector('div.message').style.display = 'static';
   }
 }
 
