@@ -8,12 +8,12 @@ function init() {
     g_ctx = canvas.getContext('2d');
     
     // create some balls with random initial co-ordinates and random velocities
-    for (var i = 0; i < 200; i++) {
+    for (var i = 0; i < 100; i++) {
       var x = Math.floor((Math.random() * 150));
       var y = Math.floor((Math.random() * 150));
-      var vx = Math.floor((Math.random() * 60) + 10) * (Math.random() < 0.5 ? -1 : 1);
-      var vy = Math.floor((Math.random() * 60) + 10) * (Math.random() < 0.5 ? -1 : 1);
-      g_balls.push(new Ball(x, y, 3, vx, vy));
+      var vx = Math.floor((Math.random() * 50) + 10) * (Math.random() < 0.5 ? -1 : 1);
+      var vy = Math.floor((Math.random() * 50) + 10) * (Math.random() < 0.5 ? -1 : 1);
+      g_balls.push(new Ball(x, y, 4, vx, vy));
     }
     
     // start the animation loop
@@ -51,17 +51,17 @@ function Ball(x, y, radius, vx, vy) {
    * dt - delta time elapsed since last call to draw (in milliseconds)
    */
   this.updateState = function(dt) {
-    this.x = (this.x + (this.vx * (dt / 1000)));
-    this.y = (this.y + (this.vy * (dt / 1000)));
+    this.x += this.vx * (dt / 1000);
+    this.y += this.vy * (dt / 1000);
     
     // reverse the x-velocity if the ball has hit either the right wall or the left wall
     if ((this.x + this.radius) >= 150 && this.vx > 0 || (this.x <= this.radius) && this.vx < 0) {
-      this.vx = -1 * this.vx;
+      this.vx *= -1;
     }
     
     // reverse the y-velocity if the ball has hit either the bottom wall or the top wall
     if ((this.y + this.radius) >= 150 && this.vy > 0 || (this.y <= this.radius) && this.vy < 0) {
-      this.vy = -1 * this.vy;
+      this.vy *= -1;
     }
   }
   
