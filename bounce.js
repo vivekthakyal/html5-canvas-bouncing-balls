@@ -40,6 +40,16 @@ function draw() {
   var now = new Date().getTime();
   var dt = now - (g_time || now);
   g_time = now;
+  
+  // requestAnimFrame stalls the animation if the browser tab is not visible. This may 
+  // result in dt to grow quite large as the last call to draw could have been quite a 
+  // while ago. We don't want the balls to wander off the canvas due to large dt values. 
+  // Therefore we cap the dt value at 100 ms.
+  // The 100ms limit is quite arbitrary, but it should at least be greater than 32ms ~ 
+  // 30 FPS 
+  if (dt >= 100) {
+    dt = 100;
+  }
   // update the state of each ball and draw it
   for (var i = 0; i < g_balls.length; i++) {
     g_balls[i].updateState(dt);
