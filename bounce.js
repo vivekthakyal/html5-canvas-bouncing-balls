@@ -1,6 +1,17 @@
 var g_balls = [];
 var g_ctx = null;
-var g_interval = 16; //16ms ~ 60 FPS 
+var g_time; 
+
+window.requestAnimFrame = (function(){
+   return  window.requestAnimationFrame       || 
+           window.webkitRequestAnimationFrame || 
+           window.mozRequestAnimationFrame    || 
+           window.oRequestAnimationFrame      || 
+           window.msRequestAnimationFrame     || 
+           function( callback ){
+             window.setTimeout(callback, 1000 / 60);
+           };
+   })();
 
 function init() {
   var canvas = document.getElementById('sandbox');
@@ -18,7 +29,7 @@ function init() {
     }
     
     // start the animation loop
-    setInterval(draw, g_interval);
+    draw();
   } else {
     document.getElementById('message').style.display = 'block';
   }
@@ -26,11 +37,15 @@ function init() {
 
 function draw() {
   g_ctx.clearRect(0, 0, 150, 150);
+  var now = new Date().getTime();
+  var dt = now - (g_time || now);
+  g_time = now;
   // update the state of each ball and draw it
   for (var i = 0; i < g_balls.length; i++) {
-    g_balls[i].updateState(g_interval);
+    g_balls[i].updateState(dt);
     g_balls[i].draw(g_ctx);
   }
+  requestAnimFrame(draw);
 }
 
 /**
