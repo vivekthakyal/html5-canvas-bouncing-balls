@@ -17,7 +17,6 @@ function init() {
   var canvas = document.getElementById('sandbox');
   if (canvas.getContext) {
     g_ctx = canvas.getContext('2d');
-    g_ctx.fillStyle = '#FFFFDA';
     
     // create some balls with random initial co-ordinates and random velocities
     for (var i = 0; i < 100; i++) {
@@ -36,7 +35,9 @@ function init() {
 }
 
 function draw() {
-  g_ctx.clearRect(0, 0, 150, 150);
+  g_ctx.fillStyle = "#535353";
+  g_ctx.globalAlpha = 0.2;
+  g_ctx.fillRect(0, 0, 150, 150);
   var now = new Date().getTime();
   var dt = now - (g_time || now);
   g_time = now;
@@ -50,6 +51,9 @@ function draw() {
   if (dt >= 100) {
     dt = 100;
   }
+  
+  g_ctx.fillStyle = '#FFFFDA';
+  g_ctx.globalAlpha = 1;
   // update the state of each ball and draw it
   for (var i = 0; i < g_balls.length; i++) {
     g_balls[i].updateState(dt);
