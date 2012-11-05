@@ -1,6 +1,8 @@
 var g_balls = [];
 var g_ctx = null;
-var g_time; 
+var g_time;
+var C_HEIGHT;
+var C_WIDTH; 
 
 window.requestAnimFrame = (function(){
    return  window.requestAnimationFrame       || 
@@ -17,11 +19,13 @@ function init() {
   var canvas = document.getElementById('sandbox');
   if (canvas.getContext) {
     g_ctx = canvas.getContext('2d');
+    C_HEIGHT = canvas.height;
+    C_WIDTH = canvas.width;
     
     // create some balls with random initial co-ordinates and random velocities
     for (var i = 0; i < 100; i++) {
-      var x = Math.floor((Math.random() * 150));
-      var y = Math.floor((Math.random() * 150));
+      var x = Math.floor((Math.random() * C_WIDTH));
+      var y = Math.floor((Math.random() * C_HEIGHT));
       var vx = Math.floor((Math.random() * 50) + 10) * (Math.random() < 0.5 ? -1 : 1);
       var vy = Math.floor((Math.random() * 50) + 10) * (Math.random() < 0.5 ? -1 : 1);
       g_balls.push(new Ball(x, y, 4, vx, vy));
@@ -37,7 +41,7 @@ function init() {
 function draw() {
   g_ctx.fillStyle = "#535353";
   g_ctx.globalAlpha = 0.2;
-  g_ctx.fillRect(0, 0, 150, 150);
+  g_ctx.fillRect(0, 0, C_WIDTH, C_HEIGHT);
   var now = new Date().getTime();
   var dt = now - (g_time || now);
   g_time = now;
@@ -87,12 +91,12 @@ function Ball(x, y, radius, vx, vy) {
     this.y += this.vy * (dt / 1000);
     
     // reverse the x-velocity if the ball has hit either the right wall or the left wall
-    if ((this.x + this.radius) >= 150 && this.vx > 0 || (this.x <= this.radius) && this.vx < 0) {
+    if ((this.x + this.radius) >= C_WIDTH && this.vx > 0 || (this.x <= this.radius) && this.vx < 0) {
       this.vx *= -1;
     }
     
     // reverse the y-velocity if the ball has hit either the bottom wall or the top wall
-    if ((this.y + this.radius) >= 150 && this.vy > 0 || (this.y <= this.radius) && this.vy < 0) {
+    if ((this.y + this.radius) >= C_HEIGHT && this.vy > 0 || (this.y <= this.radius) && this.vy < 0) {
       this.vy *= -1;
     }
   }
