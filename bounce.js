@@ -2,14 +2,14 @@ var g_balls = [];
 var g_ctx = null;
 var g_time;
 var C_HEIGHT;
-var C_WIDTH; 
+var C_WIDTH;
 
 window.requestAnimFrame = (function(){
-   return  window.requestAnimationFrame       || 
-           window.webkitRequestAnimationFrame || 
-           window.mozRequestAnimationFrame    || 
-           window.oRequestAnimationFrame      || 
-           window.msRequestAnimationFrame     || 
+   return  window.requestAnimationFrame       ||
+           window.webkitRequestAnimationFrame ||
+           window.mozRequestAnimationFrame    ||
+           window.oRequestAnimationFrame      ||
+           window.msRequestAnimationFrame     ||
            function( callback ){
              window.setTimeout(callback, 1000 / 60);
            };
@@ -21,7 +21,7 @@ function init() {
     g_ctx = canvas.getContext('2d');
     C_HEIGHT = canvas.height;
     C_WIDTH = canvas.width;
-    
+   
     // create some balls with random initial co-ordinates and random velocities
     for (var i = 0; i < 100; i++) {
       var x = Math.floor((Math.random() * C_WIDTH));
@@ -30,7 +30,7 @@ function init() {
       var vy = Math.floor((Math.random() * 50) + 10) * (Math.random() < 0.5 ? -1 : 1);
       g_balls.push(new Ball(x, y, 4, vx, vy));
     }
-    
+  
     // start the animation loop
     draw();
   } else {
@@ -45,17 +45,17 @@ function draw() {
   var now = new Date().getTime();
   var dt = now - (g_time || now);
   g_time = now;
-  
-  // requestAnimFrame stalls the animation if the browser tab is not visible. This may 
-  // result in dt to grow quite large as the last call to draw could have been quite a 
-  // while ago. We don't want the balls to wander off the canvas due to large dt values. 
+
+  // requestAnimFrame stalls the animation if the browser tab is not visible. This may
+  // result in dt to grow quite large as the last call to draw could have been quite a
+  // while ago. We don't want the balls to wander off the canvas due to large dt values.
   // Therefore we cap the dt value at 100 ms.
-  // The 100ms limit is quite arbitrary, but it should at least be greater than 32ms ~ 
-  // 30 FPS 
+  // The 100ms limit is quite arbitrary, but it should at least be greater than 32ms ~
+  // 30 FPS
   if (dt >= 100) {
     dt = 100;
   }
-  
+
   g_ctx.fillStyle = '#FFFFDA';
   g_ctx.globalAlpha = 1;
   // update the state of each ball and draw it
@@ -80,7 +80,7 @@ function Ball(x, y, radius, vx, vy) {
   this.radius = radius;
   this.vx = vx;
   this.vy = vy;
-  
+
   /**
    * Updates the location of the ball according to velocity and the amount of time passed
    *
@@ -89,18 +89,18 @@ function Ball(x, y, radius, vx, vy) {
   this.updateState = function(dt) {
     this.x += this.vx * (dt / 1000);
     this.y += this.vy * (dt / 1000);
-    
+  
     // reverse the x-velocity if the ball has hit either the right wall or the left wall
     if ((this.x + this.radius) >= C_WIDTH && this.vx > 0 || (this.x <= this.radius) && this.vx < 0) {
       this.vx *= -1;
     }
-    
+   
     // reverse the y-velocity if the ball has hit either the bottom wall or the top wall
     if ((this.y + this.radius) >= C_HEIGHT && this.vy > 0 || (this.y <= this.radius) && this.vy < 0) {
       this.vy *= -1;
     }
-  }
-  
+  };
+ 
   /**
    * Draw this ball
    *
@@ -111,5 +111,5 @@ function Ball(x, y, radius, vx, vy) {
     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
     ctx.fill();
     ctx.closePath();
-  }
+  };
 }
